@@ -24,23 +24,8 @@ env:
   UPBOUND_MARKETPLACE_PUSH_ROBOT_USR: ${{ secrets.UPBOUND_MARKETPLACE_PUSH_ROBOT_USR }}
 
 jobs:
-  detect-noop:
-    runs-on: ubuntu-22.04
-    outputs:
-      noop: ${{ steps.noop.outputs.should_skip }}
-    steps:
-      - name: Detect No-op Changes
-        id: noop
-        uses: fkirc/skip-duplicate-actions@v5.3.0
-        with:
-          github_token: ${{ secrets.GITHUB_TOKEN }}
-          paths_ignore: '["**.md", "**.png", "**.jpg"]'
-          do_not_skip: '["workflow_dispatch", "schedule", "push"]'
-
   report-breaking-changes:
     runs-on: ubuntu-22.04
-    needs: detect-noop
-    if: needs.detect-noop.outputs.noop != 'true'
     steps:
       - name: Checkout
         uses: actions/checkout@v2
@@ -66,8 +51,6 @@ jobs:
 
   lint:
     runs-on: ubuntu-22.04
-    needs: detect-noop
-    if: needs.detect-noop.outputs.noop != 'true'
 
     steps:
       - name: Checkout
@@ -110,8 +93,6 @@ jobs:
 
   check-diff:
     runs-on: ubuntu-22.04
-    needs: detect-noop
-    if: needs.detect-noop.outputs.noop != 'true'
 
     steps:
       - name: Checkout
@@ -153,8 +134,6 @@ jobs:
 
   unit-tests:
     runs-on: ubuntu-22.04
-    needs: detect-noop
-    if: needs.detect-noop.outputs.noop != 'true'
 
     steps:
       - name: Checkout
@@ -202,8 +181,6 @@ jobs:
 
   publish-artifacts:
     runs-on: ubuntu-22.04
-    needs: detect-noop
-    if: needs.detect-noop.outputs.noop != 'true'
 
     steps:
       - name: Setup QEMU
