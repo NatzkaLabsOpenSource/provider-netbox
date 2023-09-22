@@ -59,14 +59,14 @@ UPTEST_VERSION = v0.5.0
 # ====================================================================================
 # Setup Images
 
-REGISTRY_ORGS ?= ghcr.io/NatzkaLabsOpenSource/provider-netbox
+REGISTRY_ORGS ?= ghcr.io/natzkalabsopensource/provider-netbox
 IMAGES = $(PROJECT_NAME)
 -include build/makelib/imagelight.mk
 
 # ====================================================================================
 # Setup XPKG
 
-XPKG_REG_ORGS ?= ghcr.io/NatzkaLabsOpenSource/provider-netbox
+XPKG_REG_ORGS ?= ghcr.io/natzkalabsopensource/provider-netbox
 # NOTE(hasheddan): skip promoting on xpkg.upbound.io as channel tags are
 # inferred.
 XPKG_REG_ORGS_NO_PROMOTE ?= xpkg.upbound.io/upbound
