@@ -10,8 +10,8 @@ export TERRAFORM_PROVIDER_SOURCE ?= e-breuninger/netbox
 export TERRAFORM_PROVIDER_REPO ?= https://github.com/e-breuninger/terraform-provider-netbox
 export TERRAFORM_PROVIDER_VERSION ?= 3.7.0
 export TERRAFORM_PROVIDER_DOWNLOAD_NAME ?= terraform-provider-netbox
-export TERRAFORM_PROVIDER_DOWNLOAD_URL_PREFIX ?= https://releases.hashicorp.com/$(TERRAFORM_PROVIDER_DOWNLOAD_NAME)/$(TERRAFORM_PROVIDER_VERSION)
-export TERRAFORM_NATIVE_PROVIDER_BINARY ?= terraform-provider-netbox_v3.7.0_x5
+export TERRAFORM_PROVIDER_DOWNLOAD_URL_PREFIX ?= https://github.com/e-breuninger/terraform-provider-netbox/releases/download/v$(TERRAFORM_PROVIDER_VERSION)
+export TERRAFORM_NATIVE_PROVIDER_BINARY ?= terraform-provider-netbox_v$(TERRAFORM_PROVIDER_VERSION)
 export TERRAFORM_DOCS_PATH ?= docs/resources
 
 
