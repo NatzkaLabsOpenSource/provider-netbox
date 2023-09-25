@@ -4,7 +4,7 @@
 PROJECT_NAME ?= provider-netbox
 PROJECT_REPO ?= github.com/NatzkaLabsOpenSource/$(PROJECT_NAME)
 
-export TERRAFORM_VERSION ?= 1.2.1
+export TERRAFORM_VERSION ?= 1.5.5
 
 export TERRAFORM_PROVIDER_SOURCE ?= e-breuninger/netbox
 export TERRAFORM_PROVIDER_REPO ?= https://github.com/e-breuninger/terraform-provider-netbox
