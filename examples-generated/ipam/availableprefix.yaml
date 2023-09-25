@@ -1,0 +1,13 @@
+apiVersion: ipam.netbox.natzkalabs.com/v1alpha1
+kind: AvailablePrefix
+metadata:
+  annotations:
+    meta.upbound.io/example-id: ipam/v1alpha1/availableprefix
+  labels:
+    testing.upbound.io/example-name: test
+  name: test
+spec:
+  forProvider:
+    parentPrefixId: ${data.netbox_prefix.test.id}
+    prefixLength: 25
+    status: active

@@ -13,73 +13,140 @@ import (
 	v1 "github.com/crossplane/crossplane-runtime/apis/common/v1"
 )
 
-type AvailablePrefixObservation struct {
+type AvailablePrefixInitParameters struct {
+
+	// (String)
 	Description *string `json:"description,omitempty" tf:"description,omitempty"`
 
-	ID *string `json:"id,omitempty" tf:"id,omitempty"`
-
+	// (Boolean)
 	IsPool *bool `json:"isPool,omitempty" tf:"is_pool,omitempty"`
 
+	// (Boolean)
 	MarkUtilized *bool `json:"markUtilized,omitempty" tf:"mark_utilized,omitempty"`
 
+	// (Number)
 	ParentPrefixID *float64 `json:"parentPrefixId,omitempty" tf:"parent_prefix_id,omitempty"`
 
-	Prefix *string `json:"prefix,omitempty" tf:"prefix,omitempty"`
-
+	// (Number)
 	PrefixLength *float64 `json:"prefixLength,omitempty" tf:"prefix_length,omitempty"`
 
+	// (Number)
 	RoleID *float64 `json:"roleId,omitempty" tf:"role_id,omitempty"`
 
+	// (Number)
 	SiteID *float64 `json:"siteId,omitempty" tf:"site_id,omitempty"`
 
+	// (String) Valid values are active, container, reserved and deprecated.
 	// Valid values are `active`, `container`, `reserved` and `deprecated`.
 	Status *string `json:"status,omitempty" tf:"status,omitempty"`
 
+	// (Set of String)
 	Tags []*string `json:"tags,omitempty" tf:"tags,omitempty"`
 
+	// (Number)
 	TenantID *float64 `json:"tenantId,omitempty" tf:"tenant_id,omitempty"`
 
+	// (Number)
 	VlanID *float64 `json:"vlanId,omitempty" tf:"vlan_id,omitempty"`
 
+	// (Number)
+	VrfID *float64 `json:"vrfId,omitempty" tf:"vrf_id,omitempty"`
+}
+
+type AvailablePrefixObservation struct {
+
+	// (String)
+	Description *string `json:"description,omitempty" tf:"description,omitempty"`
+
+	// (String) The ID of this resource.
+	ID *string `json:"id,omitempty" tf:"id,omitempty"`
+
+	// (Boolean)
+	IsPool *bool `json:"isPool,omitempty" tf:"is_pool,omitempty"`
+
+	// (Boolean)
+	MarkUtilized *bool `json:"markUtilized,omitempty" tf:"mark_utilized,omitempty"`
+
+	// (Number)
+	ParentPrefixID *float64 `json:"parentPrefixId,omitempty" tf:"parent_prefix_id,omitempty"`
+
+	// (String)
+	Prefix *string `json:"prefix,omitempty" tf:"prefix,omitempty"`
+
+	// (Number)
+	PrefixLength *float64 `json:"prefixLength,omitempty" tf:"prefix_length,omitempty"`
+
+	// (Number)
+	RoleID *float64 `json:"roleId,omitempty" tf:"role_id,omitempty"`
+
+	// (Number)
+	SiteID *float64 `json:"siteId,omitempty" tf:"site_id,omitempty"`
+
+	// (String) Valid values are active, container, reserved and deprecated.
+	// Valid values are `active`, `container`, `reserved` and `deprecated`.
+	Status *string `json:"status,omitempty" tf:"status,omitempty"`
+
+	// (Set of String)
+	Tags []*string `json:"tags,omitempty" tf:"tags,omitempty"`
+
+	// (Number)
+	TenantID *float64 `json:"tenantId,omitempty" tf:"tenant_id,omitempty"`
+
+	// (Number)
+	VlanID *float64 `json:"vlanId,omitempty" tf:"vlan_id,omitempty"`
+
+	// (Number)
 	VrfID *float64 `json:"vrfId,omitempty" tf:"vrf_id,omitempty"`
 }
 
 type AvailablePrefixParameters struct {
 
+	// (String)
 	// +kubebuilder:validation:Optional
 	Description *string `json:"description,omitempty" tf:"description,omitempty"`
 
+	// (Boolean)
 	// +kubebuilder:validation:Optional
 	IsPool *bool `json:"isPool,omitempty" tf:"is_pool,omitempty"`
 
+	// (Boolean)
 	// +kubebuilder:validation:Optional
 	MarkUtilized *bool `json:"markUtilized,omitempty" tf:"mark_utilized,omitempty"`
 
+	// (Number)
 	// +kubebuilder:validation:Optional
 	ParentPrefixID *float64 `json:"parentPrefixId,omitempty" tf:"parent_prefix_id,omitempty"`
 
+	// (Number)
 	// +kubebuilder:validation:Optional
 	PrefixLength *float64 `json:"prefixLength,omitempty" tf:"prefix_length,omitempty"`
 
+	// (Number)
 	// +kubebuilder:validation:Optional
 	RoleID *float64 `json:"roleId,omitempty" tf:"role_id,omitempty"`
 
+	// (Number)
 	// +kubebuilder:validation:Optional
 	SiteID *float64 `json:"siteId,omitempty" tf:"site_id,omitempty"`
 
+	// (String) Valid values are active, container, reserved and deprecated.
 	// Valid values are `active`, `container`, `reserved` and `deprecated`.
 	// +kubebuilder:validation:Optional
 	Status *string `json:"status,omitempty" tf:"status,omitempty"`
 
+	// (Set of String)
 	// +kubebuilder:validation:Optional
 	Tags []*string `json:"tags,omitempty" tf:"tags,omitempty"`
 
+	// (Number)
 	// +kubebuilder:validation:Optional
 	TenantID *float64 `json:"tenantId,omitempty" tf:"tenant_id,omitempty"`
 
+	// (Number)
 	// +kubebuilder:validation:Optional
 	VlanID *float64 `json:"vlanId,omitempty" tf:"vlan_id,omitempty"`
 
+	// (Number)
 	// +kubebuilder:validation:Optional
 	VrfID *float64 `json:"vrfId,omitempty" tf:"vrf_id,omitempty"`
 }
@@ -88,6 +155,18 @@ type AvailablePrefixParameters struct {
 type AvailablePrefixSpec struct {
 	v1.ResourceSpec `json:",inline"`
 	ForProvider     AvailablePrefixParameters `json:"forProvider"`
+	// THIS IS AN ALPHA FIELD. Do not use it in production. It is not honored
+	// unless the relevant Crossplane feature flag is enabled, and may be
+	// changed or removed without notice.
+	// InitProvider holds the same fields as ForProvider, with the exception
+	// of Identifier and other resource reference fields. The fields that are
+	// in InitProvider are merged into ForProvider when the resource is created.
+	// The same fields are also added to the terraform ignore_changes hook, to
+	// avoid updating them after creation. This is useful for fields that are
+	// required on creation, but we do not desire to update them after creation,
+	// for example because of an external controller is managing them, like an
+	// autoscaler.
+	InitProvider AvailablePrefixInitParameters `json:"initProvider,omitempty"`
 }
 
 // AvailablePrefixStatus defines the observed state of AvailablePrefix.
@@ -98,7 +177,7 @@ type AvailablePrefixStatus struct {
 
 // +kubebuilder:object:root=true
 
-// AvailablePrefix is the Schema for the AvailablePrefixs API. <no value>
+// AvailablePrefix is the Schema for the AvailablePrefixs API.
 // +kubebuilder:printcolumn:name="READY",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].status"
 // +kubebuilder:printcolumn:name="SYNCED",type="string",JSONPath=".status.conditions[?(@.type=='Synced')].status"
 // +kubebuilder:printcolumn:name="EXTERNAL-NAME",type="string",JSONPath=".metadata.annotations.crossplane\\.io/external-name"
@@ -108,9 +187,9 @@ type AvailablePrefixStatus struct {
 type AvailablePrefix struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
-	// +kubebuilder:validation:XValidation:rule="self.managementPolicy == 'ObserveOnly' || has(self.forProvider.parentPrefixId)",message="parentPrefixId is a required parameter"
-	// +kubebuilder:validation:XValidation:rule="self.managementPolicy == 'ObserveOnly' || has(self.forProvider.prefixLength)",message="prefixLength is a required parameter"
-	// +kubebuilder:validation:XValidation:rule="self.managementPolicy == 'ObserveOnly' || has(self.forProvider.status)",message="status is a required parameter"
+	// +kubebuilder:validation:XValidation:rule="!('*' in self.managementPolicies || 'Create' in self.managementPolicies || 'Update' in self.managementPolicies) || has(self.forProvider.parentPrefixId) || has(self.initProvider.parentPrefixId)",message="parentPrefixId is a required parameter"
+	// +kubebuilder:validation:XValidation:rule="!('*' in self.managementPolicies || 'Create' in self.managementPolicies || 'Update' in self.managementPolicies) || has(self.forProvider.prefixLength) || has(self.initProvider.prefixLength)",message="prefixLength is a required parameter"
+	// +kubebuilder:validation:XValidation:rule="!('*' in self.managementPolicies || 'Create' in self.managementPolicies || 'Update' in self.managementPolicies) || has(self.forProvider.status) || has(self.initProvider.status)",message="status is a required parameter"
 	Spec   AvailablePrefixSpec   `json:"spec"`
 	Status AvailablePrefixStatus `json:"status,omitempty"`
 }

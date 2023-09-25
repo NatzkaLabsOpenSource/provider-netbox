@@ -3,8 +3,7 @@ apiVersion: apiextensions.k8s.io/v1
 kind: CustomResourceDefinition
 metadata:
   annotations:
-    controller-gen.kubebuilder.io/version: v0.11.3
-  creationTimestamp: null
+    controller-gen.kubebuilder.io/version: v0.12.1
   name: prefixes.ipam.netbox.natzkalabs.com
 spec:
   group: ipam.netbox.natzkalabs.com
@@ -35,7 +34,16 @@ spec:
     name: v1alpha1
     schema:
       openAPIV3Schema:
-        description: Prefix is the Schema for the Prefixs API. <no value>
+        description: 'Prefix is the Schema for the Prefixs API. From the official
+          documentation https://docs.netbox.dev/en/stable/features/ipam/#prefixes:
+          A prefix is an IPv4 or IPv6 network and mask expressed in CIDR notation
+          (e.g. 192.0.2.0/24). A prefix entails only the "network portion" of an IP
+          address: All bits in the address not covered by the mask must be zero. (In
+          other words, a prefix cannot be a specific IP address.) Prefixes are automatically
+          organized by their parent aggregates. Additionally, each prefix can be assigned
+          to a particular site and virtual routing and forwarding instance (VRF).
+          Each VRF represents a separate IP space or routing table. All prefixes not
+          assigned to a VRF are considered to be in the "global" table.'
         properties:
           apiVersion:
             description: 'APIVersion defines the versioned schema of this representation
@@ -57,7 +65,7 @@ spec:
                 description: 'DeletionPolicy specifies what will happen to the underlying
                   external when this managed resource is deleted - either "Delete"
                   or "Orphan" the external resource. This field is planned to be deprecated
-                  in favor of the ManagementPolicy field in a future release. Currently,
+                  in favor of the ManagementPolicies field in a future release. Currently,
                   both could be set independently and non-default values would be
                   honored if the feature flag is enabled. See the design doc for more
                   information: https://github.com/crossplane/crossplane/blob/499895a25d1a1a0ba1604944ef98ac7a1a71f197/design/design-doc-observe-only-resources.md?plain=1#L223'
@@ -68,47 +76,120 @@ spec:
               forProvider:
                 properties:
                   description:
+                    description: (String)
                     type: string
                   isPool:
+                    description: (Boolean)
                     type: boolean
                   markUtilized:
+                    description: (Boolean)
                     type: boolean
                   prefix:
+                    description: (String)
                     type: string
                   roleId:
+                    description: (Number)
                     type: number
                   siteId:
+                    description: (Number)
                     type: number
                   status:
-                    description: Valid values are `active`, `container`, `reserved`
+                    description: (String) Valid values are active, container, reserved
+                      and deprecated. Valid values are `active`, `container`, `reserved`
                       and `deprecated`.
                     type: string
                   tags:
+                    description: (Set of String)
                     items:
                       type: string
                     type: array
                   tenantId:
+                    description: (Number)
                     type: number
                   vlanId:
+                    description: (Number)
                     type: number
                   vrfId:
+                    description: (Number)
                     type: number
                 type: object
-              managementPolicy:
-                default: FullControl
+              initProvider:
+                description: THIS IS AN ALPHA FIELD. Do not use it in production.
+                  It is not honored unless the relevant Crossplane feature flag is
+                  enabled, and may be changed or removed without notice. InitProvider
+                  holds the same fields as ForProvider, with the exception of Identifier
+                  and other resource reference fields. The fields that are in InitProvider
+                  are merged into ForProvider when the resource is created. The same
+                  fields are also added to the terraform ignore_changes hook, to avoid
+                  updating them after creation. This is useful for fields that are
+                  required on creation, but we do not desire to update them after
+                  creation, for example because of an external controller is managing
+                  them, like an autoscaler.
+                properties:
+                  description:
+                    description: (String)
+                    type: string
+                  isPool:
+                    description: (Boolean)
+                    type: boolean
+                  markUtilized:
+                    description: (Boolean)
+                    type: boolean
+                  prefix:
+                    description: (String)
+                    type: string
+                  roleId:
+                    description: (Number)
+                    type: number
+                  siteId:
+                    description: (Number)
+                    type: number
+                  status:
+                    description: (String) Valid values are active, container, reserved
+                      and deprecated. Valid values are `active`, `container`, `reserved`
+                      and `deprecated`.
+                    type: string
+                  tags:
+                    description: (Set of String)
+                    items:
+                      type: string
+                    type: array
+                  tenantId:
+                    description: (Number)
+                    type: number
+                  vlanId:
+                    description: (Number)
+                    type: number
+                  vrfId:
+                    description: (Number)
+                    type: number
+                type: object
+              managementPolicies:
+                default:
+                - '*'
                 description: 'THIS IS AN ALPHA FIELD. Do not use it in production.
                   It is not honored unless the relevant Crossplane feature flag is
-                  enabled, and may be changed or removed without notice. ManagementPolicy
-                  specifies the level of control Crossplane has over the managed external
-                  resource. This field is planned to replace the DeletionPolicy field
-                  in a future release. Currently, both could be set independently
-                  and non-default values would be honored if the feature flag is enabled.
-                  See the design doc for more information: https://github.com/crossplane/crossplane/blob/499895a25d1a1a0ba1604944ef98ac7a1a71f197/design/design-doc-observe-only-resources.md?plain=1#L223'
-                enum:
-                - FullControl
-                - ObserveOnly
-                - OrphanOnDelete
-                type: string
+                  enabled, and may be changed or removed without notice. ManagementPolicies
+                  specify the array of actions Crossplane is allowed to take on the
+                  managed and external resources. This field is planned to replace
+                  the DeletionPolicy field in a future release. Currently, both could
+                  be set independently and non-default values would be honored if
+                  the feature flag is enabled. If both are custom, the DeletionPolicy
+                  field will be ignored. See the design doc for more information:
+                  https://github.com/crossplane/crossplane/blob/499895a25d1a1a0ba1604944ef98ac7a1a71f197/design/design-doc-observe-only-resources.md?plain=1#L223
+                  and this one: https://github.com/crossplane/crossplane/blob/444267e84783136daa93568b364a5f01228cacbe/design/one-pager-ignore-changes.md'
+                items:
+                  description: A ManagementAction represents an action that the Crossplane
+                    controllers can take on an external resource.
+                  enum:
+                  - Observe
+                  - Create
+                  - Update
+                  - Delete
+                  - LateInitialize
+                  - '*'
+                  type: string
+                type: array
               providerConfigRef:
                 default:
                   name: default
@@ -282,41 +363,57 @@ spec:
             type: object
             x-kubernetes-validations:
             - message: prefix is a required parameter
-              rule: self.managementPolicy == 'ObserveOnly' || has(self.forProvider.prefix)
+              rule: '!(''*'' in self.managementPolicies || ''Create'' in self.managementPolicies
+                || ''Update'' in self.managementPolicies) || has(self.forProvider.prefix)
+                || has(self.initProvider.prefix)'
             - message: status is a required parameter
-              rule: self.managementPolicy == 'ObserveOnly' || has(self.forProvider.status)
+              rule: '!(''*'' in self.managementPolicies || ''Create'' in self.managementPolicies
+                || ''Update'' in self.managementPolicies) || has(self.forProvider.status)
+                || has(self.initProvider.status)'
           status:
             description: PrefixStatus defines the observed state of Prefix.
             properties:
               atProvider:
                 properties:
                   description:
+                    description: (String)
                     type: string
                   id:
+                    description: (String) The ID of this resource.
                     type: string
                   isPool:
+                    description: (Boolean)
                     type: boolean
                   markUtilized:
+                    description: (Boolean)
                     type: boolean
                   prefix:
+                    description: (String)
                     type: string
                   roleId:
+                    description: (Number)
                     type: number
                   siteId:
+                    description: (Number)
                     type: number
                   status:
-                    description: Valid values are `active`, `container`, `reserved`
+                    description: (String) Valid values are active, container, reserved
+                      and deprecated. Valid values are `active`, `container`, `reserved`
                       and `deprecated`.
                     type: string
                   tags:
+                    description: (Set of String)
                     items:
                       type: string
                     type: array
                   tenantId:
+                    description: (Number)
                     type: number
                   vlanId:
+                    description: (Number)
                     type: number
                   vrfId:
+                    description: (Number)
                     type: number
                 type: object
               conditions:
